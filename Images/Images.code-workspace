@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Images",
+			"path": "."
+		},
+		{
+			"name": "Pokemon",
+			"path": "../../../Escritorio/General/IA&BD/M3:Programació d’Intel·ligència Artificial/Pokemon"
+		}
+	],
+	"settings": {}
+}
