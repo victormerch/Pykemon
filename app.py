@@ -2,37 +2,15 @@
 import re
 import pygame
 import random
+from pokemons import *
 
-class Pokemon:
-    # Constructor de la clase Pokemon.
-    def __init__(self, name, type, imgFront, imgBack):
-        self.name = name
-        self.type = type
-        self.imgFront = imgFront
-        self.imgBack = imgBack
-    
-    #Getters
-    def getType(self):
-        return self.type
-    def getImgFront(self):
-        return self.imgFront
-    def getImgBack(self):
-        return self.imgBack
-    #Setters
-    def setType(self, type):
-        self.type = type
-    def setImgFront(self, imgFront):
-        self.imgFront = imgFront
-    def setImBack(self, imgBack):
-        self.imgBack = imgBack
-        
-    def __str__(self):
-        return self.name
 
-pokemons = [Pokemon("Charmander", "Fuego", "Images/Sprites/4_charmander_front.png", "Images/Sprites/4_charmander_back.png"),
-             Pokemon("Squirtle", "Agua", "Images/Sprites/7_squirtle_front.png", "Images/Sprites/7_squirtle_back.png"),
-             Pokemon("Bulbasaur", "Planta", "Images/Sprites/1_bulbasaur_front.png", "Images/Sprites/1_bulbasaur_back.png")]
-    
+pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], "Images/Sprites/4_charmander_front.png", "Images/Sprites/4_charmander_back.png"),
+             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], "Images/Sprites/7_squirtle_front.png", "Images/Sprites/7_squirtle_back.png"),
+             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], "Images/Sprites/1_bulbasaur_front.png", "Images/Sprites/1_bulbasaur_back.png")]
+bgs = ["background_1.png","background_2.png","background_3.png","background_4.png","background_5.png","background_6.png","background_7.png",
+       "background_8.png","background_9.png","background_10.png","background_11.png"]
+  
 pygame.init()
 
 # Crear la ventana y poner el tamaño.
@@ -44,9 +22,9 @@ bg = pygame.image.load("Images/bg1.png")
 pygame.display.set_caption("Pykemon")
 screen.blit(bg, (0, 0))
 #Texto de escoje tu pokemon
-font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 12)
+font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 11)
 text = font.render('Pulsa para emepzar...', True,(250,250,250))
-screen.blit(text,(220,580))
+screen.blit(text,(230,580))
 #Icon of the game
 programIcon = pygame.image.load('Images/icon.png')
 pygame.display.set_icon(programIcon)
@@ -94,8 +72,8 @@ while not salir:
             screen.blit(pygame.transform.scale(pokemon2, (100, 100)), (250, 320))
             screen.blit(pygame.transform.scale(pokemon3, (100, 100)), (147, 460))
             #Texto de escoje tu pokemon
-            text = font.render('Escoje tu Pokemon ...', True,(0,0,0))
             font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 18)
+            text = font.render('Escoje tu Pokemon ...', True,(0,0,0))
             screen.blit(text,(65,180))   
             x, y = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -106,7 +84,6 @@ while not salir:
                         
                         pokemonUser = pokemons[0]
                         pokemonBot = random.choice(pokemons)
-                        bgs = ["background_1.png","background_2.png","background_3.png","background_4.png"]
                         bgEscenario = random.choice(bgs)
                     elif pygame.Rect(250, 320, 100, 100).collidepoint(x, y):
                         pantalla2 = False
@@ -114,7 +91,6 @@ while not salir:
                         
                         pokemonUser = pokemons[1]
                         pokemonBot = random.choice(pokemons)
-                        bgs = ["background_1.png","background_2.png","background_3.png","background_4.png"]
                         bgEscenario = random.choice(bgs)
                     elif pygame.Rect(147, 460, 100, 100).collidepoint(x, y):
                         pantalla2 = False
@@ -122,21 +98,59 @@ while not salir:
                         
                         pokemonUser = pokemons[2]
                         pokemonBot = random.choice(pokemons)
-                        bgs = ["background_1.png","background_2.png","background_3.png","background_4.png"]
                         bgEscenario = random.choice(bgs)
         if pantalla3:   
             #PANEL DE BATALLA
-            screen.fill([235, 240, 186])
+            screen.fill([235,240,186])
             
             #Escenario
             escenario = pygame.image.load("Images/Backgrounds/"+bgEscenario).convert_alpha()
             screen.blit(pygame.transform.scale(escenario, (350, 250)), (25, 20))
+            pygame.draw.rect(screen, (0,0,0), (25,20,350,250),  2, 3)#Borde
             #pokemons
             pokemon1 = pygame.image.load(pokemonUser.getImgBack()).convert_alpha()
             screen.blit(pygame.transform.scale(pokemon1, (100, 100)), (30, 160))
             
             pokemon2 = pygame.image.load(pokemonBot.getImgFront()).convert_alpha()
             screen.blit(pygame.transform.scale(pokemon2, (100, 100)), (230, 70))
+            
+            #Nombre con hp
+            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 12)
+            nameHp1 = pokemonBot.getName().upper()+": "+str(pokemonBot.getHp())
+            text1 = font.render(nameHp1, True,(0,0,0))
+            
+            screen.blit(text1,(30,40)) 
+            
+            nameHp2 = pokemonUser.getName().upper()+": "+str(pokemonUser.getHp())
+            text2 = font.render(nameHp2, True,(0,0,0))
+            
+            screen.blit(text2,(220,230)) 
+        
+            #TextArea del terminal
+            pygame.draw.rect(screen, (0,0,0), (25,280,350,110),  2, 3)
+            
+            #Botones de ataques
+            #for i in range(4):
+            pygame.draw.rect(screen, (0,0,0), (25,395,170,100),  2, 3)
+            pygame.draw.rect(screen, (0,0,0), (205,395,170,100),  2, 3)
+            pygame.draw.rect(screen, (0,0,0), (25,500,170,100),  2, 3)
+            pygame.draw.rect(screen, (0,0,0), (205,500,170,100),  2, 3)
+            
+            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 20)
+            
+            text1 = font.render(pokemonUser.getAtaques()[0].getName(), True,(0,0,0))
+            screen.blit(text1,(50,410)) 
+            
+            text2 = font.render(pokemonUser.getAtaques()[1].getName(), True,(0,0,0))
+            
+            screen.blit(text2,(230,410)) 
+            
+            text3 = font.render(pokemonUser.getAtaques()[2].getName(), True,(0,0,0))
+            screen.blit(text3,(50,510)) 
+            
+            text4 = font.render(pokemonUser.getAtaques()[3].getName(), True,(0,0,0))
+            
+            screen.blit(text4,(230,510)) 
         
                 
                 
