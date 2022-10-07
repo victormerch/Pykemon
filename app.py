@@ -2,7 +2,7 @@
 TAREAS:
 - Crear classes para las pantallas
 - Optimizar batalla
-- Poner efectos de sonido
+- Implementar funcion de contra barra para las rutas
 - Arreglar problema de las dependencias de la env del proyecto
 """
 
@@ -52,7 +52,12 @@ bgs = ["background_1.png","background_2.png","background_3.png","background_5.pn
 pygame.init()
 
 
+#Sound Effects
+pygame.mixer.init()
+pygame.mixer.music.load("Sound/pokemon-theme-song-original2.mp3")
+pygame.mixer.music.play()
 
+effectPlink = pygame.mixer.Sound("Sound/plink.mp3")
 
 clock = pygame.time.Clock()
 salir = False
@@ -60,6 +65,7 @@ pantalla1 = True
 pantalla2 = False
 pantalla3 = False
 pantalla4 = False
+
 # Loop principal (game loop) del juego.
 while not salir:
 
@@ -80,6 +86,7 @@ while not salir:
             
         if pantalla1:
             #pantalla3 = False
+            
             loop = 1
             pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], "Images/Sprites/4_charmander_front.png", "Images/Sprites/4_charmander_back.png"),
              Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], "Images/Sprites/7_squirtle_front.png", "Images/Sprites/7_squirtle_back.png"),
@@ -138,6 +145,10 @@ while not salir:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     if pygame.Rect(60, 320, 100, 100).collidepoint(x, y) or pygame.Rect(250, 320, 100, 100).collidepoint(x, y) or pygame.Rect(147, 460, 100, 100).collidepoint(x, y):
+                        
+                        effectPlink.play()
+                        pygame.mixer.music.load("Sound/pokemon-battle.mp3")
+                        pygame.mixer.music.play()
                         pantalla2 = False
                         batalla = True
                         pantalla3 = True
@@ -156,6 +167,7 @@ while not salir:
                         
                             
         if pantalla3:   
+            
             
             #PANEL DE BATALLA
             screen.fill([235,240,186])
@@ -224,8 +236,11 @@ while not salir:
             elif loop == 3:
                 pantalla3 = False
                 option = messagebox.askyesno(message="¿Quieres jugar de nuevo?", title="GAME OVER")
+                
                 if option:
                     pantalla1 = True
+                    pygame.mixer.music.load("Sound/pokemon-theme-song-original2.mp3")
+                    pygame.mixer.music.play()
                 else:
                     salir = True
             #Botones de los ataques
@@ -234,6 +249,7 @@ while not salir:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed()[0]:
                         if pygame.Rect(25, 395, 170, 100).collidepoint(x, y) or pygame.Rect(205,395,170,100).collidepoint(x, y) or pygame.Rect(25,500,170,100).collidepoint(x, y) or pygame.Rect(205,500,170,100).collidepoint(x, y):
+                            effectPlink.play()
                             #Ataque del usuario
                             if pygame.Rect(25,395, 170,100).collidepoint(x, y):
                                 ataqueUser = ataques[0]
@@ -255,6 +271,8 @@ while not salir:
                             #Comprobar si uno de los dos a muertos
                             if pokemonUser.getHp() <= 0 or pokemonBot.getHp() <= 0:
                                 batalla = False
+                                pygame.mixer.music.load("Sound/win.mp3")
+                                pygame.mixer.music.play()
                                 loop +=1
                                 
                                 if pokemonUser.getHp() <= 0:
