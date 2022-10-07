@@ -1,8 +1,8 @@
 """
 TAREAS:
 - Crear classes para las pantallas
-- Optimizar batalla
-- Implementar funcion de contra barra para las rutas
+- Crear funciones para absolutamente todo
+- Optimizar codigo
 - Arreglar problema de las dependencias de la env del proyecto
 """
 
@@ -11,43 +11,18 @@ TAREAS:
 from pathlib import Path
 import pygame
 import random
-from pokemons import *
+from pokemon import *
+from combate import Combate
 from tkinter import messagebox 
-def combate(pokemonUser, pokemonBot, ataqueuUser, ataqueBot):
-    texto = ["","",""]
-    #Ataque del usuario
-    pokemonBot.setHp(pokemonBot.getHp()-ataqueuUser.getDamage())
-    #Ataque del bot
-    pokemonUser.setHp(pokemonUser.getHp()-ataqueBot.getDamage())
-
-    texto[0] = pokemonUser.getName() + " uso " + ataqueuUser.getName()
-    texto[1] = pokemonBot.getName() + " uso " + ataqueBot.getName() 
-    
-    #texto += "Tu pokemon tiene " + str(pokemonUser.getHp()) + " de vida" + ", el pokemon del bot tiene " + str(pokemonBot.getHp()) + " de vida"
-    if pokemonUser.getHp() <= 0 and pokemonBot.getHp() <= 0:
-        pokemonUser.setHp(0)
-        pokemonBot.setHp(0)
-        texto[2] = "==EMPATE=="
-    else:
-        #Si el pokemon del usuario muere
-        if pokemonUser.getHp() <= 0:
-            pokemonUser.setHp(0)
-            texto[2] = "==HAS PERDIDO=="
-            #MessageBox.showinfo("GAME OVER", "Tu pokemon ha muerto")
-        #Si el pokemon del bot muere
-        if pokemonBot.getHp() <= 0:
-            pokemonBot.setHp(0)
-            texto[2] = "==HAS GANADO LA PARTIDA=="
-           
-            #MessageBox.showinfo("CONGRATULATIONS", "Tu pokemon ha ganado")
-    
-    
-    return texto
-
 
 
 bgs = ["background_1.png","background_2.png","background_3.png","background_5.png","background_6.png","background_7.png",
        "background_8.png","background_9.png"]
+
+pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], Path("Images","Sprites","4_charmander_front.png"), Path("Images","Sprites","4_charmander_back.png")),
+             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], Path("Images","Sprites","7_squirtle_front.png"), Path("Images","Sprites","7_squirtle_back.png")),
+             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], Path("Images","Sprites","1_bulbasaur_front.png"), Path("Images","Sprites","1_bulbasaur_back.png"))]
+
 
 pygame.init()
 
@@ -89,9 +64,7 @@ while not salir:
             #pantalla3 = False
             
             loop = 1
-            pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], Path("Images","Sprites","4_charmander_front.png"), Path("Images","Sprites","4_charmander_back.png")),
-             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], Path("Images","Sprites","7_squirtle_front.png"), Path("Images","Sprites","7_squirtle_back.png")),
-             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], Path("Images","Sprites","1_bulbasaur_front.png"), Path("Images","Sprites","1_bulbasaur_back.png"))]
+            
             
             # Crear la ventana y poner el tamaño.
             screen = pygame.display.set_mode((400, 630))
@@ -155,7 +128,6 @@ while not salir:
                         pantalla3 = True
                         pokemonBot = random.choice(pokemons)
                         bgEscenario = random.choice(bgs)
-                        
                         if pygame.Rect(60, 320, 100, 100).collidepoint(x, y):
                             pokemonUser = pokemons[0]
                             
@@ -164,6 +136,8 @@ while not salir:
                             
                         elif pygame.Rect(147, 460, 100, 100).collidepoint(x, y):
                             pokemonUser = pokemons[2]
+                            
+                        cb = Combate(pokemonUser, pokemonBot)#Inicializamos el objeto batalla
                         
                         
                             
@@ -264,7 +238,7 @@ while not salir:
                             ataqueBot = random.choice(pokemonBot.getAtaques())
                             
                             #Daño del usuario
-                            textTerminal = combate(pokemonUser, pokemonBot, ataqueUser, ataqueBot)
+                            textTerminal = cb.ronda(ataqueUser,ataqueBot)
                             textBattle1 = textTerminal[0]
                             textBattle2 = textTerminal[1]
                             textBattle3 = textTerminal[2]
@@ -292,4 +266,3 @@ while not salir:
 
 # Cerrar Pygame y liberar los recursos que pidió el programa.
 pygame.quit()
-
