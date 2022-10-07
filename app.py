@@ -1,79 +1,65 @@
 """
 TAREAS:
-- Hacer bonita la terminal de pokemon
-- Crear un bucle para continuar jugando aunque se acabe la partida, agrupando desde el init() y si es necesario con recursividad
-- Crear ventana final que muestre quien ha ganado, foto del pokemo y si quiere volver a jugar o salir del programa
+- Crear classes para las pantallas
+- Optimizar batalla
+- Poner efectos de sonido
 - Arreglar problema de las dependencias de la env del proyecto
 """
 
 
 # Importar e inicializar Pygame
+import time
 import pygame
 import random
 from pokemons import *
-from tkinter import messagebox as MessageBox
+from tkinter import messagebox 
 def combate(pokemonUser, pokemonBot, ataqueuUser, ataqueBot):
+    texto = ["","",""]
     #Ataque del usuario
     pokemonBot.setHp(pokemonBot.getHp()-ataqueuUser.getDamage())
     #Ataque del bot
     pokemonUser.setHp(pokemonUser.getHp()-ataqueBot.getDamage())
 
-    texto = pokemonUser.getName() + " uso " + ataqueUser.getName()
-    texto += ", " + pokemonBot.getName() + " uso " + ataqueBot.getName() + "."
+    texto[0] = pokemonUser.getName() + " uso " + ataqueuUser.getName()
+    texto[1] = pokemonBot.getName() + " uso " + ataqueBot.getName() 
     
     #texto += "Tu pokemon tiene " + str(pokemonUser.getHp()) + " de vida" + ", el pokemon del bot tiene " + str(pokemonBot.getHp()) + " de vida"
-
-    #Si el pokemon del usuario muere
-    if pokemonUser.getHp() <= 0:
+    if pokemonUser.getHp() <= 0 and pokemonBot.getHp() <= 0:
         pokemonUser.setHp(0)
-        texto += " Tu pokemon ha muerto"
-        #MessageBox.showinfo("GAME OVER", "Tu pokemon ha muerto")
-    #Si el pokemon del bot muere
-    if pokemonBot.getHp() <= 0:
         pokemonBot.setHp(0)
-        texto += " El pokemon del bot ha muerto"
-        #MessageBox.showinfo("CONGRATULATIONS", "Tu pokemon ha ganado")
-        
+        texto[2] = "==EMPATE=="
+    else:
+        #Si el pokemon del usuario muere
+        if pokemonUser.getHp() <= 0:
+            pokemonUser.setHp(0)
+            texto[2] = "==HAS PERDIDO=="
+            #MessageBox.showinfo("GAME OVER", "Tu pokemon ha muerto")
+        #Si el pokemon del bot muere
+        if pokemonBot.getHp() <= 0:
+            pokemonBot.setHp(0)
+            texto[2] = "==HAS GANADO LA PARTIDA=="
+           
+            #MessageBox.showinfo("CONGRATULATIONS", "Tu pokemon ha ganado")
+    
     
     return texto
 
 
-pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], "Images/Sprites/4_charmander_front.png", "Images/Sprites/4_charmander_back.png"),
-             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], "Images/Sprites/7_squirtle_front.png", "Images/Sprites/7_squirtle_back.png"),
-             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], "Images/Sprites/1_bulbasaur_front.png", "Images/Sprites/1_bulbasaur_back.png")]
-bgs = ["background_1.png","background_2.png","background_3.png","background_4.png","background_5.png","background_6.png","background_7.png",
-       "background_8.png","background_9.png","background_10.png","background_11.png"]
+
+bgs = ["background_1.png","background_2.png","background_3.png","background_5.png","background_6.png","background_7.png",
+       "background_8.png","background_9.png"]
 
 pygame.init()
 
-# Crear la ventana y poner el tamaño.
-screen = pygame.display.set_mode((400, 630))
-bg = pygame.image.load("Images/bg1.png")
-# Poner el título de la ventana.
 
-#Background
-pygame.display.set_caption("Pykemon")
-screen.blit(bg, (0, 0))
-#Texto de escoje tu pokemon
-font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 11)
-text = font.render('Pulsa para emepzar...', True,(250,250,250))
-screen.blit(text,(230,580))
-#Icon of the game
-programIcon = pygame.image.load('Images/icon.png')
-pygame.display.set_icon(programIcon)
 
-white = (255, 255, 255)
-green = (0, 255, 0)
-blue = (0, 0, 128)
- 
 
 clock = pygame.time.Clock()
 salir = False
+pantalla1 = True
 pantalla2 = False
 pantalla3 = False
 pantalla4 = False
-
-textBattle = "Empieza la batalla!"
 # Loop principal (game loop) del juego.
 while not salir:
 
@@ -91,9 +77,43 @@ while not salir:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 salir = True
-            else:
-                pantalla2 = True
-              
+            
+        if pantalla1:
+            #pantalla3 = False
+            loop = 1
+            pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], "Images/Sprites/4_charmander_front.png", "Images/Sprites/4_charmander_back.png"),
+             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], "Images/Sprites/7_squirtle_front.png", "Images/Sprites/7_squirtle_back.png"),
+             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], "Images/Sprites/1_bulbasaur_front.png", "Images/Sprites/1_bulbasaur_back.png")]
+            
+            # Crear la ventana y poner el tamaño.
+            screen = pygame.display.set_mode((400, 630))
+            bg = pygame.image.load("Images/bg1.png")
+            # Poner el título de la ventana.
+
+            #Background
+            pygame.display.set_caption("Pykemon")
+            screen.blit(bg, (0, 0))
+            #Texto de escoje tu pokemon
+            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 11)
+            text = font.render('Pulsa para emepzar...', True,(250,250,250))
+            screen.blit(text,(230,580))
+            #Icon of the game
+            programIcon = pygame.image.load('Images/icon.png')
+            pygame.display.set_icon(programIcon)
+            
+
+            textBattle1 = "Empieza la batalla!"
+            textBattle2, textBattle3 = "",""
+            if event.type == pygame.QUIT:
+                salir = True
+                pantalla1 = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
+                    salir = True
+                    pantalla1 = False
+                else:
+                    pantalla1 = False
+                    pantalla2 = True
         #Ventana de escojer pokemon  
         if pantalla2: 
             
@@ -119,10 +139,11 @@ while not salir:
                 if pygame.mouse.get_pressed()[0]:
                     if pygame.Rect(60, 320, 100, 100).collidepoint(x, y) or pygame.Rect(250, 320, 100, 100).collidepoint(x, y) or pygame.Rect(147, 460, 100, 100).collidepoint(x, y):
                         pantalla2 = False
+                        batalla = True
                         pantalla3 = True
                         pokemonBot = random.choice(pokemons)
                         bgEscenario = random.choice(bgs)
-                        batalla = True
+                        
                         if pygame.Rect(60, 320, 100, 100).collidepoint(x, y):
                             pokemonUser = pokemons[0]
                             
@@ -131,8 +152,11 @@ while not salir:
                             
                         elif pygame.Rect(147, 460, 100, 100).collidepoint(x, y):
                             pokemonUser = pokemons[2]
+                        
+                        
                             
         if pantalla3:   
+            
             #PANEL DE BATALLA
             screen.fill([235,240,186])
             
@@ -161,10 +185,14 @@ while not salir:
         
             #TextArea del terminal
             pygame.draw.rect(screen, (0,0,0), (25,280,350,110),  2, 3)
-            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 9)
+            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 12)
             
-            text1 = font.render(textBattle, True,(0,0,0))
+            text1 = font.render(textBattle1, True,(0,0,0))
             screen.blit(text1,(30,290))
+            text2 = font.render(textBattle2, True,(0,0,0))
+            screen.blit(text2,(30,305))
+            text3 = font.render(textBattle3, True,(0,0,0))
+            screen.blit(text3,(30,320))
             
             #--Botones de ataques (Esto hay que optimizarlo bastante)
             #for i in range(4):
@@ -190,7 +218,16 @@ while not salir:
             text4 = font.render(ataques[3].getName(), True,(0,0,0))
             
             screen.blit(text4,(230,510))
-        
+            if loop == 2 :
+                loop += 1
+                
+            elif loop == 3:
+                pantalla3 = False
+                option = messagebox.askyesno(message="¿Quieres jugar de nuevo?", title="GAME OVER")
+                if option:
+                    pantalla1 = True
+                else:
+                    salir = True
             #Botones de los ataques
             if batalla:#Esta condicion es para que no se puedan pulsar los botones si uno de los pokemons ha muerto
                 x, y = pygame.mouse.get_pos()
@@ -209,20 +246,25 @@ while not salir:
                             #Ataque del bot
                             ataqueBot = random.choice(pokemonBot.getAtaques())
                             
-                            #Preferiria que me devolviese una lista con varios textos y elementos
-                            textBattle = combate(pokemonUser, pokemonBot, ataqueUser, ataqueBot)
+                            #Daño del usuario
+                            textTerminal = combate(pokemonUser, pokemonBot, ataqueUser, ataqueBot)
+                            textBattle1 = textTerminal[0]
+                            textBattle2 = textTerminal[1]
+                            textBattle3 = textTerminal[2]
                             
+                            #Comprobar si uno de los dos a muertos
                             if pokemonUser.getHp() <= 0 or pokemonBot.getHp() <= 0:
                                 batalla = False
-                                #pantalla3 = False
-                                pantalla4 = True
+                                loop +=1
+                                
                                 if pokemonUser.getHp() <= 0:
                                     ganador = pokemonBot.getName()
                                 else:
                                     ganador = pokemonUser.getName()
-        if pantalla4:
-            #PANEL DE BATALLA
-            screen.fill([235,240,186])
+                                
+        
+            
+            
             
                 
     # Actualizar la pantalla.
