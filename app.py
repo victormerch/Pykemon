@@ -8,7 +8,7 @@ TAREAS:
 
 
 # Importar e inicializar Pygame
-import time
+from pathlib import Path
 import pygame
 import random
 from pokemons import *
@@ -54,12 +54,13 @@ pygame.init()
 
 #Sound Effects
 pygame.mixer.init()
-pygame.mixer.music.load("Sound/pokemon-theme-song-original2.mp3")
+pygame.mixer.music.load(Path("Sound", "pokemon-theme-song-original2.mp3"))
 pygame.mixer.music.play()
 
-effectPlink = pygame.mixer.Sound("Sound/plink.mp3")
+effectPlink = pygame.mixer.Sound(Path("Sound","plink.mp3"))
 
 clock = pygame.time.Clock()
+fuente = Path("Fonts","pokemon_generation_1.ttf")
 salir = False
 pantalla1 = True
 pantalla2 = False
@@ -88,24 +89,24 @@ while not salir:
             #pantalla3 = False
             
             loop = 1
-            pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], "Images/Sprites/4_charmander_front.png", "Images/Sprites/4_charmander_back.png"),
-             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], "Images/Sprites/7_squirtle_front.png", "Images/Sprites/7_squirtle_back.png"),
-             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], "Images/Sprites/1_bulbasaur_front.png", "Images/Sprites/1_bulbasaur_back.png")]
+            pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], Path("Images","Sprites","4_charmander_front.png"), Path("Images","Sprites","4_charmander_back.png")),
+             Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], Path("Images","Sprites","7_squirtle_front.png"), Path("Images","Sprites","7_squirtle_back.png")),
+             Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], Path("Images","Sprites","1_bulbasaur_front.png"), Path("Images","Sprites","1_bulbasaur_back.png"))]
             
             # Crear la ventana y poner el tamaño.
             screen = pygame.display.set_mode((400, 630))
-            bg = pygame.image.load("Images/bg1.png")
+            bg = pygame.image.load(Path("Images","bg1.png"))
             # Poner el título de la ventana.
 
             #Background
             pygame.display.set_caption("Pykemon")
             screen.blit(bg, (0, 0))
             #Texto de escoje tu pokemon
-            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 11)
+            font = pygame.font.Font(fuente, 11)
             text = font.render('Pulsa para emepzar...', True,(250,250,250))
             screen.blit(text,(230,580))
             #Icon of the game
-            programIcon = pygame.image.load('Images/icon.png')
+            programIcon = pygame.image.load(Path("Images","icon.png"))
             pygame.display.set_icon(programIcon)
             
 
@@ -136,7 +137,7 @@ while not salir:
             screen.blit(pygame.transform.scale(pokemon3, (100, 100)), (147, 460))
             
             #Texto de escoje tu pokemon
-            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 18)
+            font = pygame.font.Font(fuente, 18)
             text = font.render('Escoje tu Pokemon ...', True,(0,0,0))
             screen.blit(text,(65,180))   
             
@@ -147,7 +148,7 @@ while not salir:
                     if pygame.Rect(60, 320, 100, 100).collidepoint(x, y) or pygame.Rect(250, 320, 100, 100).collidepoint(x, y) or pygame.Rect(147, 460, 100, 100).collidepoint(x, y):
                         
                         effectPlink.play()
-                        pygame.mixer.music.load("Sound/pokemon-battle.mp3")
+                        pygame.mixer.music.load(Path("Sound","pokemon-battle.mp3"))
                         pygame.mixer.music.play()
                         pantalla2 = False
                         batalla = True
@@ -173,7 +174,7 @@ while not salir:
             screen.fill([235,240,186])
             
             #Escenario
-            escenario = pygame.image.load("Images/Backgrounds/"+bgEscenario).convert_alpha()
+            escenario = pygame.image.load(Path("Images","Backgrounds",bgEscenario)).convert_alpha()
             screen.blit(pygame.transform.scale(escenario, (350, 250)), (25, 20))
             pygame.draw.rect(screen, (0,0,0), (25,20,350,250),  2, 3)#Borde
             #pokemons
@@ -184,7 +185,7 @@ while not salir:
             screen.blit(pygame.transform.scale(pokemon2, (100, 100)), (230, 70))
             
             #Nombre con hp
-            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 12)
+            font = pygame.font.Font(fuente, 12)
             nameHp1 = pokemonBot.getName().upper()+": "+str(pokemonBot.getHp())
             text1 = font.render(nameHp1, True,(0,0,0))
             
@@ -197,7 +198,7 @@ while not salir:
         
             #TextArea del terminal
             pygame.draw.rect(screen, (0,0,0), (25,280,350,110),  2, 3)
-            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 12)
+            font = pygame.font.Font(fuente, 12)
             
             text1 = font.render(textBattle1, True,(0,0,0))
             screen.blit(text1,(30,290))
@@ -215,7 +216,7 @@ while not salir:
             
             #Texto de los ataques
             
-            font = pygame.font.Font('Fonts/pokemon_generation_1.ttf', 13)
+            font = pygame.font.Font(fuente, 13)
             ataques = pokemonUser.getAtaques()
             text1 = font.render(ataques[0].getName(), True,(0,0,0))
             screen.blit(text1,(50,410)) 
@@ -239,7 +240,7 @@ while not salir:
                 
                 if option:
                     pantalla1 = True
-                    pygame.mixer.music.load("Sound/pokemon-theme-song-original2.mp3")
+                    pygame.mixer.music.load(Path("Sound","pokemon-theme-song-original2.mp3"))
                     pygame.mixer.music.play()
                 else:
                     salir = True
@@ -271,7 +272,7 @@ while not salir:
                             #Comprobar si uno de los dos a muertos
                             if pokemonUser.getHp() <= 0 or pokemonBot.getHp() <= 0:
                                 batalla = False
-                                pygame.mixer.music.load("Sound/win.mp3")
+                                pygame.mixer.music.load(Path("Sound","win.mp3"))
                                 pygame.mixer.music.play()
                                 loop +=1
                                 
