@@ -1,9 +1,10 @@
 """
 TAREAS:
-- Crear classes para las pantallas
-- Crear funciones para absolutamente todo
+
 - Optimizar codigo
-- Arreglar problema de las dependencias de la env del proyecto
+    - Crear classes para las pantallas
+    - Crear funciones para absolutamente todo
+
 """
 
 
