@@ -1,9 +1,12 @@
 """
-TAREAS:
-
-- Optimizar codigo
-    - Crear classes para las pantallas
-    - Crear funciones para absolutamente todo
+===================PYKEMON==================
+============================================
+Version Alpha 0.1
+Creado por: @victormerch
+Fecha: 11/10/22
+============================================
+============================================
+    
 
 """
 
@@ -16,15 +19,17 @@ from pokemon import *
 from combate import Combate
 from tkinter import messagebox 
 
-
+#Lista de backgorunds para las batallas
 bgs = ["background_1.png","background_2.png","background_3.png","background_5.png","background_6.png","background_7.png",
        "background_8.png","background_9.png"]
-
+#Lista de pokemons para las batallas
 pokemons = [Pokemon("Charmander", "Fuego",150,[Ataque("Scratch",30),Ataque("Growl",40),Ataque("Ember",25),Ataque("Smokescreen",20)], Path("Images","Sprites","4_charmander_front.png"), Path("Images","Sprites","4_charmander_back.png")),
              Pokemon("Squirtle", "Agua",150,[Ataque("Headbutt",45),Ataque("Tackle",40),Ataque("Strength",20),Ataque("Skull Bash",10)], Path("Images","Sprites","7_squirtle_front.png"), Path("Images","Sprites","7_squirtle_back.png")),
              Pokemon("Bulbasaur", "Planta",180,[Ataque("Cut",30),Ataque("Bind",15),Ataque("Headbutt",40),Ataque("Tackle",35)], Path("Images","Sprites","1_bulbasaur_front.png"), Path("Images","Sprites","1_bulbasaur_back.png"))]
 
 
+#===== PYGAME ======
+# Inicializar Pygame
 pygame.init()
 
 
@@ -36,7 +41,11 @@ pygame.mixer.music.play()
 effectPlink = pygame.mixer.Sound(Path("Sound","plink.mp3"))
 
 clock = pygame.time.Clock()
+
+#Tipo de letra
 fuente = Path("Fonts","pokemon_generation_1.ttf")
+
+# Flags para los tipos de pantallas en los bucles
 salir = False
 pantalla1 = True
 pantalla2 = False
