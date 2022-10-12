@@ -7,4 +7,4 @@ Entrego este porque el juego esta acabado,
         - Crear funciones para absolutamente todo
 
 ### Capturas de pantalla
-<img src= "Images/">
+<img src= "Images/Capturas/pantalla1.png">
