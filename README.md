@@ -1,8 +1,8 @@
 # Pykemon
 
-Version Alpha 0.1
-Creado por: @victormerch
-Fecha: 11/10/22
+Version Alpha 0.1<br>
+Creado por: @victormerch<br>
+Fecha: 11/10/22<br>
 
 ### Capturas de pantalla
 <div style="display=flex;felx-direction=row">
