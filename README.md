@@ -7,7 +7,9 @@ Entrego este porque el juego esta acabado,
         - Crear funciones para absolutamente todo
 
 ### Capturas de pantalla
-<img src= "Images/Capturas/pantalla1.png" height=200px width=100px>
-<img src= "Images/Capturas/pantalla2.png">
-<img src= "Images/Capturas/pantalla3.png">
-<img src= "Images/Capturas/pantalla4.png">
+<div style="display=flex;felx-direction=row">
+    <img src= "Images/Capturas/pantalla1.png" height=300px width=200px>
+    <img src= "Images/Capturas/pantalla2.png" height=300px width=200px>
+    <img src= "Images/Capturas/pantalla3.png" height=300px width=200px>
+    <img src= "Images/Capturas/pantalla4.png" height=300px width=200px>
+</div>
