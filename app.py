@@ -1,9 +1,10 @@
 """
 ===================PYKEMON==================
 ============================================
-Version Alpha 0.1
-Creado por: @victormerch
-Fecha: 11/10/22
+Entrego este porque el juego esta acabado, pero no tengo tiempo para terminar las tareas siguientes.
+- Optimizar codigo
+    - Crear classes para las pantallas
+    - Crear funciones para absolutamente todo
 ============================================
 ============================================
     
