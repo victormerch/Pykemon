@@ -8,8 +8,8 @@ Entrego este porque el juego esta acabado,
 
 ### Capturas de pantalla
 <div style="display=flex;felx-direction=row">
-    <img src= "Images/Capturas/pantalla1.png" height=400px width=320px>
-    <img src= "Images/Capturas/pantalla2.png" height=400px width=320px>
-    <img src= "Images/Capturas/pantalla3.png" height=400px width=320px>
-    <img src= "Images/Capturas/pantalla4.png" height=400px width=320px>
+    <img src= "Images/Capturas/pantalla1.png" height=310px width=220px>
+    <img src= "Images/Capturas/pantalla2.png" height=310px width=220px>
+    <img src= "Images/Capturas/pantalla3.png" height=310px width=220px>
+    <img src= "Images/Capturas/pantalla4.png" height=310px width=220px>
 </div>
